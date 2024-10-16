@@ -1,0 +1,17 @@
+{
+  "name": "desafio-torneo-dragon-ball",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "wds --node-resolve --open --watch",
+    "start": "wds --node-resolve --open",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@web/dev-server": "^0.4.6"
+  }
+}
