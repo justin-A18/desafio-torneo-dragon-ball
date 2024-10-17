@@ -1,4 +1,4 @@
-import { testProbability } from "../utils/random.js";
+import { testProbability } from "../utils/utils.js";
 
 export function Fighter({
   name: _name,
@@ -27,7 +27,7 @@ export function Fighter({
   };
 
   const attackEnemy = (enemyFighter) => {
-    if (tryToAvoidDamage()) {
+    if (tryToEvade()) {
       console.log(`${enemyFighter.getName()} evaded the attack!`);
       return;
     }
@@ -42,7 +42,7 @@ export function Fighter({
     return speed > otherFighter.speed;
   };
 
-  const tryToAvoidDamage = () => {
+  const tryToEvade = () => {
     return testProbability(20); // 20% chance to avoid attack
   };
 

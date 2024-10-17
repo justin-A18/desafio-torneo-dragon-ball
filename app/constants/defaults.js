@@ -1,0 +1,1 @@
+export const DEFAULT_FIGHTERS_NUMBER = 4;
