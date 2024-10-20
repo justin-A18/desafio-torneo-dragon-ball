@@ -1,4 +1,9 @@
-import { testProbability } from "../utils/utils.js";
+import {
+  DEFAULT_ATTACK_DAMAGE_PERCENTAGE,
+  DEFAULT_MAX_HEALTH,
+  DEFAULT_PROBABILITIES_EVADING_ATTACK,
+} from "../constants/defaults.js";
+import { applyPercentageToDamage, testProbability } from "../utils/utils.js";
 
 export function Fighter({
   name: _name,
@@ -12,26 +17,37 @@ export function Fighter({
   const speed = _speed;
   const attack = _attack;
   const defense = _defense;
-  let health = 100;
+  let health = DEFAULT_MAX_HEALTH;
 
   const getName = () => name;
   const getFullName = () => icon + name;
 
   const damage = (damage) => {
-    const calculatedDamage = defense > damage ? damage * 0.1 : damage;
+    const calculatedDamage =
+      defense > damage
+        ? applyPercentageToDamage(damage, DEFAULT_ATTACK_DAMAGE_PERCENTAGE)
+        : Number(damage);
+    // console.log(`La vida de ${getFullName()} es de ${health}`);
     if (calculatedDamage > health) health = 0;
     else health -= calculatedDamage;
-    console.log(
-      `${name} receives ${calculatedDamage} points of damage. Has ${health} points of life left`
-    );
+    // console.log(`A ${getFullName()} le quedan ${health} puntos de vida`);
+
+    return calculatedDamage;
   };
 
   const attackEnemy = (enemyFighter) => {
     if (tryToEvade()) {
-      console.log(`${enemyFighter.getName()} evaded the attack!`);
-      return;
+      return {
+        success: false,
+        damageDealt: 0,
+      };
     }
-    enemyFighter.damage(attack);
+    const damageDealt = Number(enemyFighter.damage(attack));
+    // Returns true if attack was successful, otherwise false
+    return {
+      success: true,
+      damageDealt,
+    };
   };
 
   const isAlive = () => {
@@ -43,15 +59,19 @@ export function Fighter({
   };
 
   const tryToEvade = () => {
-    return testProbability(20); // 20% chance to avoid attack
+    return testProbability(DEFAULT_PROBABILITIES_EVADING_ATTACK); // 20% chance to avoid attack
   };
 
+  const restoreHealth = () => (health = DEFAULT_MAX_HEALTH);
+
   return {
+    name,
     getName,
     getFullName,
     attackEnemy,
     damage,
     isFaster,
     isAlive,
+    restoreHealth,
   };
 }

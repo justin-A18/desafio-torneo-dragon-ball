@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "wds --node-resolve --open --watch",
+    "dev": "wds --node-resolve --watch",
     "start": "wds --node-resolve --open",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
