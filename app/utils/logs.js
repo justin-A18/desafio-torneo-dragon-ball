@@ -9,36 +9,66 @@ export const log = {
       "Fighters pairs are:",
       pairs.map((pair) => pair.map((f) => f.getFullName()).join(" vs "))
     ),
+  round: (roundNumber) => {
+    console.log(`###########################################`);
+    console.log(`################# Round ${roundNumber} #################`);
+  },
+  startBattle: (name1, name2) =>
+    console.log(`🥊 Start battle between ${name1} vs ${name2}`),
+  turnAction: (
+    attacker,
+    receiver,
+    damage,
+    evaded,
+    healthLeft,
+    firstMovement
+  ) => {
+    console.log(
+      `    ${attacker} attacks ${receiver}${
+        firstMovement ? " first" : ""
+      }! ${receiver} ${
+        evaded
+          ? `evaded the attack!`
+          : `receives ${damage} points of damage, has ${healthLeft} health points left.`
+      }`
+    );
+  },
+  roundWinner: (winner) => {
+    console.log(`${winner} wins! 🏆`);
+    console.log("=========================================");
+  },
+  championTournament: (champion) => {
+    console.log(`🥇 The tournament champion is ${champion} 🎉`);
+  },
 };
 
-export const logResults = (results) => {
-  results.rounds.forEach((round, index) => {
-    console.log(`###########################################`);
-    console.log(`################# Round ${index + 1} #################`);
-    round.forEach((battleResults) => {
-      const { fighter1, fighter2, battle, results } = battleResults;
-      console.log(
-        `🥊 Start battle between ${fighter1.getFullName()} and ${fighter2.getFullName()}`
-      );
-      battle.turns.forEach((turn, index) => {
-        const { attacker, receiver, damage, evaded } = turn;
-        console.log(
-          `    ${attacker.getFullName()} attacks${
-            index === 0 ? " first" : ""
-          }!`,
-          `${receiver.getFullName()} ${
-            evaded
-              ? "evaded the attack!"
-              : `receives ${damage} points of damage.`
-          }
-          `
+export const logResults = (tournament) => {
+  log.selectedFighters(tournament.fighters);
+
+  const pairs = tournament.rounds[0].map((battle) => [
+    battle.fighter1,
+    battle.fighter2,
+  ]);
+  log.fightersPairs(pairs);
+
+  tournament.rounds.forEach((round, index) => {
+    log.round(index + 1);
+    round.forEach((battle) => {
+      const { fighter1, fighter2, turns, winner } = battle;
+      log.startBattle(fighter1.getFullName(), fighter2.getFullName());
+      turns.forEach((turn, index) => {
+        const { attacker, receiver, damage, evaded, healthLeft } = turn;
+        log.turnAction(
+          attacker.getFullName(),
+          receiver.getFullName(),
+          damage,
+          evaded,
+          healthLeft,
+          index === 0
         );
       });
-      console.log(`${results.winner.getFullName()} wins! 🏆`);
-      console.log("=========================================");
+      log.roundWinner(winner.getFullName());
     });
   });
-  console.log(
-    `🥇 The tournament champion is ${results.winner.getFullName()} 🎉`
-  );
+  log.championTournament(tournament.champion.getFullName());
 };

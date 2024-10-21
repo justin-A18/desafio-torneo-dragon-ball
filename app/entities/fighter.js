@@ -32,7 +32,10 @@ export function Fighter({
     else health -= calculatedDamage;
     // console.log(`A ${getFullName()} le quedan ${health} puntos de vida`);
 
-    return calculatedDamage;
+    return {
+      damageDealt: calculatedDamage,
+      healthLeft: health,
+    };
   };
 
   const attackEnemy = (enemyFighter) => {
@@ -42,11 +45,12 @@ export function Fighter({
         damageDealt: 0,
       };
     }
-    const damageDealt = Number(enemyFighter.damage(attack));
+    const { damageDealt, healthLeft } = enemyFighter.damage(attack);
     // Returns true if attack was successful, otherwise false
     return {
       success: true,
       damageDealt,
+      healthLeft,
     };
   };
 

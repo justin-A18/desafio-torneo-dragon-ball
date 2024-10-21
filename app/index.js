@@ -3,13 +3,11 @@ import { CHARACTERS, DEFAULT_FIGHTERS_NUMBER } from "./constants";
 import { getRandomIntBetween } from "./utils";
 import { log, logResults } from "./utils/logs.js";
 
-function init() {
+(function init() {
   const fighters = selectFighters();
-  log.selectedFighters(fighters);
-
-  startTournament(fighters);
-}
-init();
+  const fightersPairs = pairingFighters({ fighters });
+  startTournament(fightersPairs, fighters);
+})();
 
 function selectFighters() {
   const max = CHARACTERS.length;
@@ -21,63 +19,36 @@ function selectFighters() {
       selectedIndexes.push(index);
     }
   }
-
   return selectedIndexes.map((index) => Fighter(CHARACTERS[index]));
 }
 
-function startTournament(fighters) {
-  const fightersPairs = pairingFighters({ fighters });
-
-  // TODO: Implement tournament logic
-  // TODO: Implement win condition
-  // TODO: Implement tie condition
-  const tournamentResults = {
-    rounds: [[]],
-    winner: null,
+function startTournament(fightersPairs, fighters) {
+  const tournament = {
+    fighters,
+    rounds: [],
+    champion: null,
   };
 
-  // First deploy & first round battles
-
-  // Deploy fighters pairs in results
-  fightersPairs.map((pair) => {
-    const fighter1 = pair[0];
-    const fighter2 = pair[1];
-    tournamentResults.rounds[0].push({
-      fighter1,
-      fighter2,
-      battle: {
-        turns: [],
-      },
-      results: {
-        winner: null,
-        loser: null,
-      },
+  const restoreAllHealth = () => {
+    tournament.rounds[tournament.rounds.length - 1].forEach((battle) => {
+      battle.fighter1.restoreHealth();
+      battle.fighter2.restoreHealth();
     });
-  });
+  };
 
-  // Make fight
-  tournamentResults.rounds[0].forEach((data, index) => {
-    const { fighter1, fighter2 } = data;
-    const { turns, winner, loser } = startBattle(fighter1, fighter2);
-    tournamentResults.rounds[0][index].battle.turns = [...turns];
-    tournamentResults.rounds[0][index].results = { winner, loser };
-  });
-  tournamentResults.rounds[0].forEach((data) => {
-    const { fighter1, fighter2 } = data;
-    fighter1.restoreHealth();
-    fighter2.restoreHealth();
-  });
+  const firstPairsDeployment = () => {
+    const newRound = fightersPairs.map((pair) => ({
+      fighter1: pair[0],
+      fighter2: pair[1],
+      turns: [],
+      winner: null,
+    }));
+    tournament.rounds.push(newRound);
+  };
 
-  // Nexts deploys & rounds battles
-
-  while (
-    tournamentResults.rounds[tournamentResults.rounds.length - 1].length > 1
-  ) {
-    // Deploy fighters pairs in results
-    const newRound = tournamentResults.rounds[
-      tournamentResults.rounds.length - 1
-    ]
-      .map((battle) => battle.results.winner)
+  const nextsPairsDeployment = () => {
+    const newRound = tournament.rounds[tournament.rounds.length - 1]
+      .map((battle) => battle.winner)
       .reduce(
         (acc, winner) => {
           if (acc[acc.length - 1].length < 2) acc[acc.length - 1].push(winner);
@@ -89,51 +60,46 @@ function startTournament(fighters) {
       .map((pair) => ({
         fighter1: pair[0],
         fighter2: pair[1],
-        battle: {
-          turns: [],
-        },
-        results: {
-          winner: null,
-          loser: null,
-        },
+        turns: [],
+        winner: null,
       }));
-    tournamentResults.rounds.push(newRound);
+    tournament.rounds.push(newRound);
+  };
 
-    // Make fight
-    tournamentResults.rounds[tournamentResults.rounds.length - 1].forEach(
-      (data, index) => {
-        const { fighter1, fighter2 } = data;
-        const { turns, winner, loser } = startBattle(fighter1, fighter2);
-        tournamentResults.rounds[tournamentResults.rounds.length - 1][
-          index
-        ].battle.turns = [...turns];
-        tournamentResults.rounds[tournamentResults.rounds.length - 1][
-          index
-        ].results = {
-          winner,
-          loser,
-        };
-      }
-    );
-    tournamentResults.rounds[tournamentResults.rounds.length - 1].forEach(
-      (data) => {
-        const { fighter1, fighter2 } = data;
-        fighter1.restoreHealth();
-        fighter2.restoreHealth();
-      }
-    );
+  const makeFightLastRoundBattlers = () => {
+    const lastRound = tournament.rounds[tournament.rounds.length - 1];
+    lastRound.forEach((battle, index) => {
+      const { turns, winner } = startBattle(battle.fighter1, battle.fighter2);
+      lastRound[index].turns = [...turns];
+      lastRound[index].winner = winner;
+    });
+    restoreAllHealth();
+  };
+
+  const validateWinner = () => {
+    const lastRound = tournament.rounds[tournament.rounds.length - 1];
+    if (lastRound.length <= 1) tournament.champion = lastRound[0].winner;
+  };
+
+  while (!tournament.champion) {
+    if (!tournament.rounds.length) {
+      // Is first deploy
+      firstPairsDeployment();
+    } else {
+      // Others deployments
+      nextsPairsDeployment();
+    }
+
+    makeFightLastRoundBattlers();
+
+    validateWinner();
   }
 
-  tournamentResults.winner =
-    tournamentResults.rounds[
-      tournamentResults.rounds.length - 1
-    ][0].results.winner;
-  logResults(tournamentResults);
-  console.log("tournamentResults", tournamentResults);
+  logResults(tournament);
+  console.log("tournamentResults", tournament);
 }
 
 function pairingFighters({ fighters: orignalFighters }) {
-  // TODO: Implement match logic
   const fighters = [...orignalFighters];
   const pairs = [[]];
 
@@ -152,8 +118,6 @@ function pairingFighters({ fighters: orignalFighters }) {
     const selectedIndex = getRandomIntBetween(0, fighters.length - 1);
     addFigherByIndex(selectedIndex);
   }
-
-  log.fightersPairs(pairs);
   return pairs;
 }
 
@@ -167,18 +131,15 @@ function startBattle(fighter1, fighter2) {
   let turnsCounter = 0;
 
   while (fighter1.isAlive() && fighter2.isAlive()) {
-    let attackResults;
-    if (isFighter1Turn) {
-      attackResults = fighter1.attackEnemy(fighter2);
-    } else {
-      attackResults = fighter2.attackEnemy(fighter1);
-    }
-    const { success, damageDealt } = attackResults;
+    const { success, damageDealt, healthLeft } = isFighter1Turn
+      ? fighter1.attackEnemy(fighter2)
+      : fighter2.attackEnemy(fighter1);
     results.turns.push({
       attacker: isFighter1Turn ? fighter1 : fighter2,
       receiver: isFighter1Turn ? fighter2 : fighter1,
       damage: damageDealt,
       evaded: !success,
+      healthLeft,
     });
 
     if (!(fighter1.isAlive() && fighter2.isAlive())) {
