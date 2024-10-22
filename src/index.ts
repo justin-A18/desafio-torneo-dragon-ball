@@ -1,7 +1,8 @@
-import { Fighter } from "./entities/fighter.js";
-import { CHARACTERS, DEFAULT_FIGHTERS_NUMBER } from "./constants";
-import { getRandomIntBetween } from "./utils";
-import { log, logResults } from "./utils/logs.js";
+import { Fighter } from "./entities/fighter/index";
+import { CHARACTERS, DEFAULT_FIGHTERS_NUMBER } from "./constants/index";
+import { getRandomIntBetween, logResults } from "./utils/index";
+import { IFighterInstance } from "./entities/fighter/fighter.types";
+import { ITournament, TRound, TTurn } from "./types/tournament";
 
 (function init() {
   const fighters = selectFighters();
@@ -11,7 +12,7 @@ import { log, logResults } from "./utils/logs.js";
 
 function selectFighters() {
   const max = CHARACTERS.length;
-  const selectedIndexes = [];
+  const selectedIndexes: number[] = [];
 
   while (selectedIndexes.length < DEFAULT_FIGHTERS_NUMBER) {
     const index = getRandomIntBetween(0, max - 1);
@@ -22,8 +23,11 @@ function selectFighters() {
   return selectedIndexes.map((index) => Fighter(CHARACTERS[index]));
 }
 
-function startTournament(fightersPairs, fighters) {
-  const tournament = {
+function startTournament(
+  fightersPairs: IFighterInstance[][],
+  fighters: IFighterInstance[]
+) {
+  const tournament: ITournament = {
     fighters,
     rounds: [],
     champion: null,
@@ -37,7 +41,7 @@ function startTournament(fightersPairs, fighters) {
   };
 
   const firstPairsDeployment = () => {
-    const newRound = fightersPairs.map((pair) => ({
+    const newRound: TRound = fightersPairs.map((pair) => ({
       fighter1: pair[0],
       fighter2: pair[1],
       turns: [],
@@ -49,8 +53,9 @@ function startTournament(fightersPairs, fighters) {
   const nextsPairsDeployment = () => {
     const newRound = tournament.rounds[tournament.rounds.length - 1]
       .map((battle) => battle.winner)
+      .filter((winner) => winner !== null)
       .reduce(
-        (acc, winner) => {
+        (acc: IFighterInstance[][], winner) => {
           if (acc[acc.length - 1].length < 2) acc[acc.length - 1].push(winner);
           else acc.push([winner]);
           return acc;
@@ -99,11 +104,15 @@ function startTournament(fightersPairs, fighters) {
   console.log("tournamentResults", tournament);
 }
 
-function pairingFighters({ fighters: orignalFighters }) {
-  const fighters = [...orignalFighters];
-  const pairs = [[]];
+function pairingFighters({
+  fighters: originalFighters,
+}: {
+  fighters: IFighterInstance[];
+}) {
+  const fighters = [...originalFighters];
+  const pairs: IFighterInstance[][] = [[]];
 
-  const addFigherByIndex = (selectedIndex) => {
+  const addFigherByIndex = (selectedIndex: number) => {
     if (pairs[pairs.length - 1].length < 2) {
       // Add the fighter in the last pair array
       pairs[pairs.length - 1].push(fighters[selectedIndex]);
@@ -121,8 +130,12 @@ function pairingFighters({ fighters: orignalFighters }) {
   return pairs;
 }
 
-function startBattle(fighter1, fighter2) {
-  const results = {
+function startBattle(fighter1: IFighterInstance, fighter2: IFighterInstance) {
+  const results: {
+    winner: IFighterInstance | null;
+    loser: IFighterInstance | null;
+    turns: TTurn[];
+  } = {
     winner: null,
     loser: null,
     turns: [],

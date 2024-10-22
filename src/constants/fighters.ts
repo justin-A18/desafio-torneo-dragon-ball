@@ -1,4 +1,6 @@
-export const CHARACTERS = [
+import { IFighterProps } from "../entities/fighter/fighter.types";
+
+export const CHARACTERS: IFighterProps[] = [
   { name: "Goku", speed: 90, attack: 95, defense: 85, icon: "🟠" },
   { name: "Vegeta", speed: 88, attack: 92, defense: 82, icon: "🔵" },
   { name: "Gohan", speed: 85, attack: 89, defense: 80, icon: "🟡" },

@@ -1,27 +1,30 @@
+import { IFighterInstance } from "../entities/fighter/fighter.types";
+import { ITournament } from "../types/tournament";
+
 export const log = {
-  selectedFighters: (fighters) =>
+  selectedFighters: (fighters: IFighterInstance[]) =>
     console.log(
       "The selected fighters are:",
       fighters.map((f) => f.getFullName())
     ),
-  fightersPairs: (pairs) =>
+  fightersPairs: (pairs: IFighterInstance[][]) =>
     console.log(
       "Fighters pairs are:",
       pairs.map((pair) => pair.map((f) => f.getFullName()).join(" vs "))
     ),
-  round: (roundNumber) => {
+  round: (roundNumber: number) => {
     console.log(`###########################################`);
     console.log(`################# Round ${roundNumber} #################`);
   },
-  startBattle: (name1, name2) =>
+  startBattle: (name1: string, name2: string) =>
     console.log(`🥊 Start battle between ${name1} vs ${name2}`),
   turnAction: (
-    attacker,
-    receiver,
-    damage,
-    evaded,
-    healthLeft,
-    firstMovement
+    attacker: string,
+    receiver: string,
+    damage: number,
+    evaded: boolean,
+    healthLeft: number = 0,
+    firstMovement: boolean
   ) => {
     console.log(
       `    ${attacker} attacks ${receiver}${
@@ -33,16 +36,16 @@ export const log = {
       }`
     );
   },
-  roundWinner: (winner) => {
-    console.log(`${winner} wins! 🏆`);
+  roundWinner: (winnerName: string) => {
+    console.log(`${winnerName} wins! 🏆`);
     console.log("=========================================");
   },
-  championTournament: (champion) => {
-    console.log(`🥇 The tournament champion is ${champion} 🎉`);
+  championTournament: (championName: string) => {
+    console.log(`🥇 The tournament champion is ${championName} 🎉`);
   },
 };
 
-export const logResults = (tournament) => {
+export const logResults = (tournament: ITournament) => {
   log.selectedFighters(tournament.fighters);
 
   const pairs = tournament.rounds[0].map((battle) => [
@@ -67,8 +70,9 @@ export const logResults = (tournament) => {
           index === 0
         );
       });
-      log.roundWinner(winner.getFullName());
+      if (winner) log.roundWinner(winner.getFullName());
     });
   });
-  log.championTournament(tournament.champion.getFullName());
+  if (tournament.champion)
+    log.championTournament(tournament.champion.getFullName());
 };

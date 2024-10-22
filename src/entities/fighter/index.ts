@@ -1,0 +1,1 @@
+export { Fighter } from "./fighter";

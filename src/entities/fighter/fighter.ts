@@ -2,8 +2,9 @@ import {
   DEFAULT_ATTACK_DAMAGE_PERCENTAGE,
   DEFAULT_MAX_HEALTH,
   DEFAULT_PROBABILITIES_EVADING_ATTACK,
-} from "../constants/defaults.js";
-import { applyPercentageToDamage, testProbability } from "../utils/utils.js";
+} from "../../constants/defaults";
+import { applyPercentageToDamage, testProbability } from "../../utils/utils";
+import { IFighterProps, IFighterInstance } from "./fighter.types";
 
 export function Fighter({
   name: _name,
@@ -11,7 +12,7 @@ export function Fighter({
   attack: _attack,
   defense: _defense,
   icon: _icon,
-}) {
+}: IFighterProps): IFighterInstance {
   const name = _name;
   const icon = _icon;
   const speed = _speed;
@@ -21,16 +22,15 @@ export function Fighter({
 
   const getName = () => name;
   const getFullName = () => icon + name;
+  const getSpeed = () => speed;
 
-  const damage = (damage) => {
+  const damage = (damage: number) => {
     const calculatedDamage =
       defense > damage
         ? applyPercentageToDamage(damage, DEFAULT_ATTACK_DAMAGE_PERCENTAGE)
         : Number(damage);
-    // console.log(`La vida de ${getFullName()} es de ${health}`);
     if (calculatedDamage > health) health = 0;
     else health -= calculatedDamage;
-    // console.log(`A ${getFullName()} le quedan ${health} puntos de vida`);
 
     return {
       damageDealt: calculatedDamage,
@@ -38,7 +38,7 @@ export function Fighter({
     };
   };
 
-  const attackEnemy = (enemyFighter) => {
+  const attackEnemy = (enemyFighter: IFighterInstance) => {
     if (tryToEvade()) {
       return {
         success: false,
@@ -46,7 +46,6 @@ export function Fighter({
       };
     }
     const { damageDealt, healthLeft } = enemyFighter.damage(attack);
-    // Returns true if attack was successful, otherwise false
     return {
       success: true,
       damageDealt,
@@ -54,16 +53,14 @@ export function Fighter({
     };
   };
 
-  const isAlive = () => {
-    return health > 0;
-  };
+  const isAlive = () => health > 0;
 
-  const isFaster = (otherFighter) => {
-    return speed > otherFighter.speed;
+  const isFaster = (otherFighter: IFighterInstance) => {
+    return speed > otherFighter.getSpeed();
   };
 
   const tryToEvade = () => {
-    return testProbability(DEFAULT_PROBABILITIES_EVADING_ATTACK); // 20% chance to avoid attack
+    return testProbability(DEFAULT_PROBABILITIES_EVADING_ATTACK);
   };
 
   const restoreHealth = () => (health = DEFAULT_MAX_HEALTH);
@@ -72,6 +69,7 @@ export function Fighter({
     name,
     getName,
     getFullName,
+    getSpeed,
     attackEnemy,
     damage,
     isFaster,
