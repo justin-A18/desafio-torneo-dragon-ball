@@ -114,7 +114,9 @@ export class ConsoleAdapter {
       {
         type: "input",
         name: "enter",
-        message: `Presione ${chalk.blueBright("ENTER")} para continuar`,
+        message: `${chalk.yellow("Presione")} ${chalk.blueBright(
+          "ENTER"
+        )} ${chalk.yellow("para continuar")}`,
       },
     ];
 

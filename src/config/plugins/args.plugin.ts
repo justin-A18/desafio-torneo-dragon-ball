@@ -8,4 +8,10 @@ export const yarg = yargs(hideBin(process.argv))
     default: "player",
     description: "Role of the user",
   })
+  .option("t", {
+    alias: "tournament",
+    type: "number",
+    demandOption: true,
+    description: "number of fighters in the tournament",
+  })
   .parseSync();
