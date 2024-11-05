@@ -22,5 +22,7 @@ export class ServerApp {
     } while (option !== "0");
   }
 
-  private static async startTournament() { }
+  private static async startTournament() { 
+    console.log("Torneo iniciado");
+  }
 }

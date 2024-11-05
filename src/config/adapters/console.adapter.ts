@@ -101,18 +101,8 @@ export class ConsoleAdapter {
   }
 
   static async optionsMenu() {
-    console.clear();
-
-    const title = [
-      chalk.hex("#f9ec42").bold("Dragón"),
-      chalk.redBright.bold("Ball"),
-      chalk.blueBright.bold.italic("Sparking"),
-      chalk.yellowBright.bold.italic("Zero"),
-    ];
-
-    console.log(chalk.dim.bold.strikethrough("========================="));
-    console.log(title.join(" "));
-    console.log(chalk.dim.bold.strikethrough("=========================\n"));
+    ConsoleAdapter.showTitle();
+    
 
     const { option } = await inquirer.prompt(this.questions);
 
@@ -152,10 +142,22 @@ export class ConsoleAdapter {
     return description;
   }
 
-  static async showTitle() {
+  static showTitle() {
     console.clear();
-    console.log(chalk.yellow("========================="));
-    console.log(chalk.blueBright("Bienvenido al torneo"));
-    console.log(chalk.yellow("=========================\n"));
+
+    const title = [
+      chalk.yellowBright.bold("Bienvenido"),
+      chalk.blueBright.bold("a"),
+      chalk.hex("#f9ec42").bold("Dragón"),
+      chalk.redBright.bold("Ball"),
+      chalk.blueBright.bold.italic("Sparking"),
+      chalk.yellowBright.bold.italic("Zero"),
+    ];
+
+    const horizontalLine = chalk.dim.bold.strikethrough("=".repeat(40));
+
+    console.log(horizontalLine);
+    console.log(title.join(" "));
+    console.log(horizontalLine,"\n");
   }
 }
