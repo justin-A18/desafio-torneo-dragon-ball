@@ -7,7 +7,6 @@ interface RunOptions{
 export class ServerApp {
   private static actions: Record<string, Function> = {
     "1": () => console.log("Comenzar torneo..."),
-    "0": () => "",
   }
 
   static async run({ role }: RunOptions) {
