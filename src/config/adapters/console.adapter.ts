@@ -18,21 +18,21 @@ export class ConsoleAdapter {
     {
       type: "list",
       name: "option",
-      message: "Seleccione una opción",
+      message: `${chalk.hex("#f9ec42")("Seleccione")} ${chalk.red("una")} ${chalk.blueBright("opción")}`,
       choices: [
         {
           value: "1",
-          name: `${chalk.blueBright("1.")} Comenzar torneo`,
+          name: `${chalk.yellowBright("1.")} Comenzar torneo`,
         },
         {
           value: "0",
-          name: `${chalk.blueBright("0.")} Salir`,
+          name: `${chalk.yellowBright("0.")} Salir`,
         },
       ],
     },
   ];
 
-  static async checkMenu(options: OptionsMenu[],message: string) { 
+  static async checkMenu(options: OptionsMenu[], message: string) {
     const choices = options.map((option, index) => {
       const i = chalk.blueBright(`${index + 1}.`);
 
@@ -71,7 +71,7 @@ export class ConsoleAdapter {
     return ok;
   }
 
-  static async listMenu(options: OptionsMenu[], message: string) { 
+  static async listMenu(options: OptionsMenu[], message: string) {
     const choices = options.map((option, index) => {
       const i = chalk.blueBright(`${index + 1}.`);
 
@@ -102,9 +102,17 @@ export class ConsoleAdapter {
 
   static async optionsMenu() {
     console.clear();
-    console.log(chalk.yellow("========================="));
-    console.log(chalk.blueBright(" Seleccione una opción"));
-    console.log(chalk.yellow("=========================\n"));
+
+    const title = [
+      chalk.hex("#f9ec42").bold("Dragón"),
+      chalk.redBright.bold("Ball"),
+      chalk.blueBright.bold.italic("Sparking"),
+      chalk.yellowBright.bold.italic("Zero"),
+    ];
+
+    console.log(chalk.dim.bold.strikethrough("========================="));
+    console.log(title.join(" "));
+    console.log(chalk.dim.bold.strikethrough("=========================\n"));
 
     const { option } = await inquirer.prompt(this.questions);
 
@@ -147,7 +155,7 @@ export class ConsoleAdapter {
   static async showTitle() {
     console.clear();
     console.log(chalk.yellow("========================="));
-    console.log(chalk.blueBright("   Bienvenido al torneo"));
+    console.log(chalk.blueBright("Bienvenido al torneo"));
     console.log(chalk.yellow("=========================\n"));
   }
 }

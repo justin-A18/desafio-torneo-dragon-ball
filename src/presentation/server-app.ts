@@ -6,11 +6,10 @@ interface RunOptions{
 
 export class ServerApp {
   private static actions: Record<string, Function> = {
-    "1": () => console.log("Comenzar torneo..."),
+    "1": () => ServerApp.startTournament(),
   }
 
   static async run({ role }: RunOptions) {
-    console.log('Server running...');
 
     let option = "";
 
@@ -22,4 +21,6 @@ export class ServerApp {
       if(option !== "0") await ConsoleAdapter.pause();
     } while (option !== "0");
   }
+
+  private static async startTournament() { }
 }
