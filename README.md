@@ -51,3 +51,9 @@ Cada luchador tiene los siguientes atributos:
 Para correr el programa, asegúrate de que los luchadores están configurados con
 sus respectivos nombres y atributos, y que el número de luchadores es una
 potencia de 2.
+
+
+## Análisis de req. de simulación de torneo (moises):
+
+*Reto lógica:* [Reto - DBZ](https://dynalist.io/d/U36Q_2vmJ2Uz69K2DtfFAvHS)
+
