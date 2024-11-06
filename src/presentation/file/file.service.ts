@@ -8,7 +8,7 @@ export class FileService{
 
   readDB(filePath: string): Record<string,any>[] | null {
     if (!fs.existsSync(filePath)) return null;
-    
+
     const info = fs.readFileSync(filePath, { encoding: 'utf-8' });
     const data = JSON.parse(info);
 
