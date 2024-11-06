@@ -11,9 +11,9 @@ export class ServerApp {
   };
 
   static async run({ role, nroOfFighters }: RunOptions) {
-    let option = "";
-
     new ConsoleAdapter({ role });
+    
+    let option = "";
 
     do {
       option = await ConsoleAdapter.optionsMenu();

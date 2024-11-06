@@ -1,0 +1,212 @@
+[
+  {
+    "id": "52afcf5e-4a09-400f-9193-4f8566d6922c",
+    "name": "Goku",
+    "speed": 85,
+    "attack": 95,
+    "defense": 90
+  },
+  {
+    "id": "9ce34310-02db-4017-8123-f6f2a2ba6e30",
+    "name": "Vegeta",
+    "speed": 80,
+    "attack": 90,
+    "defense": 85
+  },
+  {
+    "id": "dd4ed316-26a7-4be2-b54a-bd25fadb1f04",
+    "name": "Piccolo",
+    "speed": 70,
+    "attack": 80,
+    "defense": 95
+  },
+  {
+    "id": "1f0e960a-cd60-4c11-9998-b80e2ccf48e1",
+    "name": "Gohan",
+    "speed": 78,
+    "attack": 85,
+    "defense": 80
+  },
+  {
+    "id": "d14601a8-bb83-4fe0-8be8-de8cf302b8de",
+    "name": "Krillin",
+    "speed": 60,
+    "attack": 70,
+    "defense": 65
+  },
+  {
+    "id": "f2b78ef9-0d0f-4e2b-a3ff-53c614de2085",
+    "name": "Trunks",
+    "speed": 82,
+    "attack": 88,
+    "defense": 80
+  },
+  {
+    "id": "6a491ad3-ca14-40a0-bb2e-d1a50809af8c",
+    "name": "Frieza",
+    "speed": 75,
+    "attack": 92,
+    "defense": 70
+  },
+  {
+    "id": "62565fb5-d2a5-41ca-9f1b-c2079faf99eb",
+    "name": "Cell",
+    "speed": 80,
+    "attack": 94,
+    "defense": 85
+  },
+  {
+    "id": "dfbd4912-0a56-4726-8edf-320862caeffb",
+    "name": "Majin Buu",
+    "speed": 50,
+    "attack": 88,
+    "defense": 95
+  },
+  {
+    "id": "36e9f495-939b-44d0-bc3a-8b638fb241e6",
+    "name": "Tien",
+    "speed": 65,
+    "attack": 75,
+    "defense": 60
+  },
+  {
+    "id": "412ead21-d616-4389-b7c7-5436a31cfcd1",
+    "name": "Yamcha",
+    "speed": 62,
+    "attack": 68,
+    "defense": 55
+  },
+  {
+    "id": "4079cd01-9dbc-413b-b44e-9e939fad32fd",
+    "name": "Android 18",
+    "speed": 70,
+    "attack": 85,
+    "defense": 80
+  },
+  {
+    "id": "4a2aca41-326a-4848-8a80-ba6f71e5bdcd",
+    "name": "Broly",
+    "speed": 78,
+    "attack": 98,
+    "defense": 90
+  },
+  {
+    "id": "e205a28b-9f9e-4108-9f49-9ae5262a4c51",
+    "name": "Beerus",
+    "speed": 95,
+    "attack": 100,
+    "defense": 95
+  },
+  {
+    "id": "4cad8cd8-ff6c-4abd-a729-6b7490c4b1f5",
+    "name": "Whis",
+    "speed": 100,
+    "attack": 95,
+    "defense": 100
+  },
+  {
+    "id": "04215df3-6c19-4ebf-ae4d-c41e1931ab17",
+    "name": "Goten",
+    "speed": 68,
+    "attack": 72,
+    "defense": 65
+  },
+  {
+    "id": "e6d75aca-2a45-4596-a694-b057619eeec7",
+    "name": "Gotenks",
+    "speed": 82,
+    "attack": 90,
+    "defense": 85
+  },
+  {
+    "id": "970cc621-4266-4908-8d1e-0a4fe0d16c33",
+    "name": "Android 17",
+    "speed": 72,
+    "attack": 84,
+    "defense": 78
+  },
+  {
+    "id": "9da2e9a0-f71f-4b1f-b7b7-78f0ab65582f",
+    "name": "Jiren",
+    "speed": 90,
+    "attack": 97,
+    "defense": 96
+  },
+  {
+    "id": "6c24f59e-2080-41bc-b6db-5ca487af9802",
+    "name": "Zamasu",
+    "speed": 82,
+    "attack": 90,
+    "defense": 92
+  },
+  {
+    "id": "d6ffcdd5-8e1c-4408-b275-00a4044b122a",
+    "name": "Hit",
+    "speed": 92,
+    "attack": 94,
+    "defense": 88
+  },
+  {
+    "id": "f31dabd8-8853-4cd6-8493-537efcb2b852",
+    "name": "Raditz",
+    "speed": 58,
+    "attack": 70,
+    "defense": 60
+  },
+  {
+    "id": "d8ca5eab-f107-4751-a111-624b0a4385eb",
+    "name": "Nappa",
+    "speed": 55,
+    "attack": 78,
+    "defense": 75
+  },
+  {
+    "id": "f097960c-169e-49a0-8c75-f31146b4bd96",
+    "name": "Bardock",
+    "speed": 74,
+    "attack": 82,
+    "defense": 78
+  },
+  {
+    "id": "4287333e-4095-4934-9bf4-71d1a5936a3e",
+    "name": "Captain Ginyu",
+    "speed": 60,
+    "attack": 72,
+    "defense": 68
+  },
+  {
+    "id": "99a88659-74cb-4033-ab09-9d4abfa73ab4",
+    "name": "Recoome",
+    "speed": 52,
+    "attack": 68,
+    "defense": 70
+  },
+  {
+    "id": "babb3499-0373-479d-af71-1363e3f16bf1",
+    "name": "Burter",
+    "speed": 85,
+    "attack": 65,
+    "defense": 60
+  },
+  {
+    "id": "0db640bc-986e-409e-8ae4-41bdc9141294",
+    "name": "Jeice",
+    "speed": 68,
+    "attack": 70,
+    "defense": 65
+  },
+  {
+    "id": "548237f1-5a8b-4599-8b6e-c424b702d655",
+    "name": "Guldo",
+    "speed": 50,
+    "attack": 55,
+    "defense": 60
+  },
+  {
+    "id": "2e0e3b90-3ef4-43e8-be65-5f517d5c3651",
+    "name": "King Cold",
+    "speed": 70,
+    "attack": 88,
+    "defense": 85
+  }
+]
