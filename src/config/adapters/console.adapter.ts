@@ -13,26 +13,61 @@ type OptionsMenu = {
   checked?: boolean;
 };
 
-export class ConsoleAdapter {
-  private static questions: Questions[] = [
-    {
-      type: "list",
-      name: "option",
-      message: `${chalk.hex("#f9ec42")("Seleccione")} ${chalk.red("una")} ${chalk.blueBright("opción")}`,
-      choices: [
-        {
-          value: "1",
-          name: `${chalk.yellowBright("1.")} Comenzar torneo`,
-        },
-        {
-          value: "0",
-          name: `${chalk.yellowBright("0.")} Salir`,
-        },
-      ],
-    },
-  ];
+interface Flags {
+  role: string;
+}
 
-  static async checkMenu(options: OptionsMenu[], message: string): Promise<string[]> {
+export class ConsoleAdapter {
+  private static menuMessage: string = `${chalk.hex("#f9ec42")(
+    "Seleccione"
+  )} ${chalk.red("una")} ${chalk.blueBright("opción")}`;
+
+  private static questions: Questions[] = [];
+
+  constructor({ role }: Flags) {
+    const isAdmin = role === "admin";
+
+    const adminChoices = [
+      {
+        value: "2",
+        name: `${chalk.yellowBright("2.")} Mostrar personajes`,
+      },
+      {
+        value: "3",
+        name: `${chalk.yellowBright("3.")} Eliminar personaje`,
+      },
+      {
+        value: "4",
+        name: `${chalk.yellowBright("4.")} Modificar personaje`,
+      }
+    ];
+
+    ConsoleAdapter.questions = [
+      {
+        type: "list",
+        name: "option",
+        message: ConsoleAdapter.menuMessage,
+        choices: [
+          {
+            value: "1",
+            name: `${chalk.yellowBright("1.")} ${
+              isAdmin ? "Agregar personaje" : "Comenzar torneo"
+            }`,
+          },
+          ...(isAdmin ? adminChoices : []),
+          {
+            value: "0",
+            name: `${chalk.yellowBright("0.")} Salir`,
+          },
+        ],
+      },
+    ];
+  }
+
+  static async checkMenu(
+    options: OptionsMenu[],
+    message: string
+  ): Promise<string[]> {
     const choices = options.map((option, index) => {
       const i = chalk.blueBright(`${index + 1}.`);
 
@@ -71,7 +106,10 @@ export class ConsoleAdapter {
     return ok;
   }
 
-  static async listMenu(options: OptionsMenu[], message: string): Promise<string> {
+  static async listMenu(
+    options: OptionsMenu[],
+    message: string
+  ): Promise<string> {
     const choices = options.map((option, index) => {
       const i = chalk.blueBright(`${index + 1}.`);
 
@@ -102,7 +140,6 @@ export class ConsoleAdapter {
 
   static async optionsMenu(): Promise<string> {
     ConsoleAdapter.showTitle();
-    
 
     const { option } = await inquirer.prompt(this.questions);
 
@@ -145,7 +182,7 @@ export class ConsoleAdapter {
   }
 
   static showTitle(): void {
-    // console.clear();
+    console.clear();
 
     const title = [
       chalk.yellowBright.bold("Bienvenido"),
@@ -158,8 +195,9 @@ export class ConsoleAdapter {
 
     const horizontalLine = chalk.dim.bold.strikethrough("=".repeat(40));
 
+    console.log();
     console.log(horizontalLine);
     console.log(title.join(" "));
-    console.log(horizontalLine,"\n");
+    console.log(horizontalLine, "\n");
   }
 }

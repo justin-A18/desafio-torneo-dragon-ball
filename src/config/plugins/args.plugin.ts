@@ -18,7 +18,7 @@ export const yarg = yargs(hideBin(process.argv))
   })
   .check((argv) => {
     const roles = ["player", "admin"];
-    if (!roles.includes(argv.r)) throw "Error: Role must be player or admin";
+    if (!roles.includes(argv.r)) throw "Error: Role must be 'player' or 'admin'";
     
     if (isNaN(argv.t)) throw "Error: Tournament must be a number";
     if(!CalculatorADapter.isPowerOfTwo(argv.t)) throw "Error: Tournament must be a power of 2";
