@@ -59,7 +59,7 @@ export class ServerApp {
         chalk.hex("#f9ec42").bold.strikethrough("\n---"),
         chalk.redBright.bold.italic("Ronda"),
         chalk.blueBright.bold.italic(round),
-        chalk.yellowBright.bold.strikethrough("---")
+        chalk.yellowBright.bold.strikethrough("---\n")
       );
       
       CalculatorADapter.shuffleArray(selectedCharacters);
@@ -90,7 +90,10 @@ export class ServerApp {
       round++;
     }
 
-    console.log(chalk.dim.whiteBright.bold("\n¡El ganador del torneo es! 🏆"));
-    console.log(chalk.cyan.italic(selectedCharacters.at(0)?.name));
+    console.log();
+    console.log(
+      chalk.dim.whiteBright.bold("🏆 El ganador del torneo es:"),
+      chalk.green.italic.bold(selectedCharacters.at(0)?.name)
+    );
   }
 }

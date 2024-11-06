@@ -29,18 +29,50 @@ export class StartBattle implements StartBattleUseCase {
         console.log(
           chalk.cyan.italic(defender.name),
           chalk.hex("#f9ec42")(" esquiva el ataque de "),
-          chalk.cyan.italic(attacker.name)
+          chalk.cyan.italic(attacker.name),
+          chalk.hex("#f9ec42")("👀\n")
         );
       } else {
         const damage =
           attacker.attack > defender.defense
             ? attacker.attack - defender.defense
             : attacker.attack * 0.1;
-        
-        defenderHealth -= damage;
+
+        defenderHealth = Math.max(0,defenderHealth - damage);
+
+        console.log(
+          chalk.cyan.italic(attacker.name),
+          chalk.hex("#f9ec42")("ataca a"),
+          chalk.cyan.italic(defender.name),
+          chalk.hex("#f9ec42")("causando"),
+          chalk.yellowBright.bold(damage.toFixed()),
+          chalk.hex("#f9ec42")("de daño")
+        );
+
+        console.log(
+          chalk.blueBright.italic(defender.name),
+          " tiene ",
+          chalk.red(defenderHealth.toFixed()),
+          " de vida\n"
+        );
+
+        if (defenderHealth <= 0) {
+          console.log(
+            chalk.hex("#f9ec42").italic( "🏆",attacker.name),
+            chalk.red("gana"),
+            chalk.blue("la"),
+            chalk.yellow("batalla 🏆\n")
+          );
+
+          return attacker;
+        }
       }
+
+      //* Intercambia los roles de atacante y defensor, y sus respectivas vidas
+      [attacker, defender] = [defender, attacker];
+      [attackerHealth, defenderHealth] = [defenderHealth, attackerHealth];
     }
 
-    return {} as CharacterEntity;
+    return attackerHealth > 0 ? attacker : defender;
   }
 }
