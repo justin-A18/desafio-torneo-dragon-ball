@@ -4,7 +4,11 @@ import { CharacterEntity } from "../domain/entities";
 import { FileService } from "./file/file.service";
 import { CharacterService } from "./character/character.service";
 
-import { CalculatorADapter, ConsoleAdapter } from "../config/adapters";
+import {
+  CalculatorADapter,
+  ConsoleAdapter,
+  TimeAdapter,
+} from "../config/adapters";
 
 import chalk from "chalk";
 
@@ -57,11 +61,12 @@ export class ServerApp {
     while (selectedCharacters.length > 1) {
       console.log(
         chalk.hex("#f9ec42").bold.strikethrough("\n---"),
-        chalk.redBright.bold.italic("Ronda"),
+        chalk.redBright.bold.italic.underline("Ronda"),
         chalk.blueBright.bold.italic(round),
         chalk.yellowBright.bold.strikethrough("---\n")
       );
-      
+
+      await TimeAdapter.sleep(1000);
       CalculatorADapter.shuffleArray(selectedCharacters);
 
       const nextRound: CharacterEntity[] = [];
@@ -70,7 +75,13 @@ export class ServerApp {
         const fighter1 = selectedCharacters[i];
         const fighter2 = selectedCharacters[i + 1];
 
-        const winner = new StartBattle().execute(fighter1, fighter2);
+        console.log(
+          chalk.blue.italic("🥊",fighter1.name),
+          chalk.yellowBright.bold("vs"),
+          chalk.blue.italic(fighter2.name,"🥊\n")
+        );
+
+        const winner = await new StartBattle().execute(fighter1, fighter2);
 
         console.log(
           chalk.hex("#f9ec42").bold("🥊"),
@@ -79,14 +90,15 @@ export class ServerApp {
           chalk.cyan.italic(fighter2.name),
           chalk.greenBright.bold("=>"),
           chalk.blueBright.italic("Ganador:"),
-          chalk.yellowBright.bold.italic(winner.name)
+          chalk.yellowBright.bold.italic(winner.name),
+          "\n"
         );
 
         nextRound.push(winner);
       }
 
       selectedCharacters.splice(0, selectedCharacters.length, ...nextRound);
-      
+
       round++;
     }
 

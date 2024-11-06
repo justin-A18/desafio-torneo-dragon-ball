@@ -1,3 +1,4 @@
+import { TimeAdapter } from "../../../config/adapters";
 import { CharacterEntity } from "../../entities";
 
 import chalk from "chalk";
@@ -6,14 +7,14 @@ interface StartBattleUseCase {
   execute(
     fighter1: CharacterEntity,
     fighter2: CharacterEntity
-  ): CharacterEntity;
+  ): Promise<CharacterEntity>;
 }
 
 export class StartBattle implements StartBattleUseCase {
-  execute(
+  async execute(
     fighter1: CharacterEntity,
     fighter2: CharacterEntity
-  ): CharacterEntity {
+  ): Promise<CharacterEntity> {
     let fighterHealth1 = 100;
     let fighterHealth2 = 100;
 
@@ -71,6 +72,8 @@ export class StartBattle implements StartBattleUseCase {
       //* Intercambia los roles de atacante y defensor, y sus respectivas vidas
       [attacker, defender] = [defender, attacker];
       [attackerHealth, defenderHealth] = [defenderHealth, attackerHealth];
+
+      await TimeAdapter.sleep(1000);
     }
 
     return attackerHealth > 0 ? attacker : defender;
