@@ -76,15 +76,14 @@ export class ServerApp {
         const fighter2 = selectedCharacters[i + 1];
 
         console.log(
-          chalk.blue.italic("🥊",fighter1.name),
+          chalk.blue.italic("\n", fighter1.name),
           chalk.yellowBright.bold("vs"),
-          chalk.blue.italic(fighter2.name,"🥊\n")
+          chalk.blue.italic(fighter2.name, "🥊\n")
         );
 
         const winner = await new StartBattle().execute(fighter1, fighter2);
 
         console.log(
-          chalk.hex("#f9ec42").bold("🥊"),
           chalk.cyan.italic(fighter1.name),
           chalk.yellowBright.bold("vs"),
           chalk.cyan.italic(fighter2.name),
