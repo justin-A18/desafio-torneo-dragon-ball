@@ -32,7 +32,7 @@ export class ConsoleAdapter {
     },
   ];
 
-  static async checkMenu(options: OptionsMenu[], message: string) {
+  static async checkMenu(options: OptionsMenu[], message: string): Promise<string[]> {
     const choices = options.map((option, index) => {
       const i = chalk.blueBright(`${index + 1}.`);
 
@@ -57,7 +57,7 @@ export class ConsoleAdapter {
     return ids;
   }
 
-  static async confirm(message: string) {
+  static async confirm(message: string): Promise<boolean> {
     const question: Questions[] = [
       {
         type: "confirm",
@@ -71,7 +71,7 @@ export class ConsoleAdapter {
     return ok;
   }
 
-  static async listMenu(options: OptionsMenu[], message: string) {
+  static async listMenu(options: OptionsMenu[], message: string): Promise<string> {
     const choices = options.map((option, index) => {
       const i = chalk.blueBright(`${index + 1}.`);
 
@@ -100,7 +100,7 @@ export class ConsoleAdapter {
     return id;
   }
 
-  static async optionsMenu() {
+  static async optionsMenu(): Promise<string> {
     ConsoleAdapter.showTitle();
     
 
@@ -109,7 +109,7 @@ export class ConsoleAdapter {
     return option;
   }
 
-  static async pause() {
+  static async pause(): Promise<void> {
     const question: Questions[] = [
       {
         type: "input",
@@ -125,7 +125,7 @@ export class ConsoleAdapter {
     await inquirer.prompt(question);
   }
 
-  static async readInput(message: string) {
+  static async readInput(message: string): Promise<string> {
     const question: Questions[] = [
       {
         type: "input",
@@ -144,7 +144,7 @@ export class ConsoleAdapter {
     return description;
   }
 
-  static showTitle() {
+  static showTitle(): void {
     console.clear();
 
     const title = [
