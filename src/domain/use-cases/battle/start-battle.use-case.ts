@@ -21,8 +21,8 @@ export class StartBattle implements StartBattleUseCase {
       fighter1.speed >= fighter2.speed
         ? [fighter1, fighter2, fighterHealth1, fighterHealth2]
         : [fighter2, fighter1, fighterHealth2, fighterHealth1];
-    
-    while (attackerHealth > 0 && defenderHealth > 0) { 
+
+    while (attackerHealth > 0 && defenderHealth > 0) {
       const evade = Math.random() < 0.2;
 
       if (evade) {
@@ -32,7 +32,12 @@ export class StartBattle implements StartBattleUseCase {
           chalk.cyan.italic(attacker.name)
         );
       } else {
+        const damage =
+          attacker.attack > defender.defense
+            ? attacker.attack - defender.defense
+            : attacker.attack * 0.1;
         
+        defenderHealth -= damage;
       }
     }
 
