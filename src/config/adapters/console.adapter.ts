@@ -145,7 +145,7 @@ export class ConsoleAdapter {
   }
 
   static showTitle(): void {
-    console.clear();
+    // console.clear();
 
     const title = [
       chalk.yellowBright.bold("Bienvenido"),

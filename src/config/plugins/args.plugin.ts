@@ -1,4 +1,6 @@
 import yargs from "yargs/yargs";
+
+import { CalculatorADapter } from "../adapters";
 import { hideBin } from "yargs/helpers";
 
 export const yarg = yargs(hideBin(process.argv))
@@ -19,8 +21,7 @@ export const yarg = yargs(hideBin(process.argv))
     if (!roles.includes(argv.r)) throw "Error: Role must be player or admin";
     
     if (isNaN(argv.t)) throw "Error: Tournament must be a number";
-    // validar que argv.t sea un número potencia de 2
-    // if (Math.log2(argv.t) % 1 !== 0) throw "Error: Tournament must be a power of 2";
+    if(!CalculatorADapter.isPowerOfTwo(argv.t)) throw "Error: Tournament must be a power of 2";
 
     return true;
   })
