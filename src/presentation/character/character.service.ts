@@ -1,8 +1,15 @@
-import { CharacterEntity } from "../../domain/entities/character.entity";
+import { CharacterEntity } from "../../domain/entities";
+
+import { FileService } from "../file/file.service";
 
 export class CharacterService{
-  getAll(): CharacterEntity[] {
+  constructor(
+    private readonly fileService: FileService
+  ) { }
 
-    return [];
+  getAll(): CharacterEntity[] {
+    const characters = (this.fileService.readDB('characters.json') || []) as CharacterEntity[];
+
+    return characters;
   }
 }

@@ -13,6 +13,7 @@ export class GetRandomCharactersUseCase implements GetCharactersUseCase {
 
   execute(count: number): CharacterEntity[] {
     const characters = this.characterService.getAll();
+    
     const shuffledCharacters = CalculatorADapter.shuffleArray(characters);
 
     return shuffledCharacters.slice(0, count);
