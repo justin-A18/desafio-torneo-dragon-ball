@@ -1,9 +1,12 @@
-import { GetRandomCharactersUseCase } from "../domain/use-cases";
-import { CharacterService } from "./character/character.service";
-import { CalculatorADapter, ConsoleAdapter } from "../config/adapters";
-import { FileService } from "./file/file.service";
-import chalk from "chalk";
+import { GetRandomCharactersUseCase, StartBattle } from "../domain/use-cases";
 import { CharacterEntity } from "../domain/entities";
+
+import { FileService } from "./file/file.service";
+import { CharacterService } from "./character/character.service";
+
+import { CalculatorADapter, ConsoleAdapter } from "../config/adapters";
+
+import chalk from "chalk";
 
 interface RunOptions {
   role: string;
@@ -67,7 +70,7 @@ export class ServerApp {
         const fighter1 = selectedCharacters[i];
         const fighter2 = selectedCharacters[i + 1];
 
-        // const winner = {};
+        const winner = new StartBattle().execute(fighter1, fighter2);
 
         console.log(
           chalk.hex("#f9ec42").bold("🥊"),
@@ -76,15 +79,18 @@ export class ServerApp {
           chalk.cyan.italic(fighter2.name),
           chalk.greenBright.bold("=>"),
           chalk.blueBright.italic("Ganador:"),
-          // chalk.yellowBright.bold.italic(winner.name)
+          chalk.yellowBright.bold.italic(winner.name)
         );
 
-        // nextRound.push(winner);
+        nextRound.push(winner);
       }
 
       selectedCharacters.splice(0, selectedCharacters.length, ...nextRound);
       
       round++;
     }
+
+    console.log(chalk.dim.whiteBright.bold("\n¡El ganador del torneo es! 🏆"));
+    console.log(chalk.cyan.italic(selectedCharacters.at(0)?.name));
   }
 }
